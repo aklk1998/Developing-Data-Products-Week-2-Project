@@ -1,0 +1,71 @@
+---
+title: "Developing Data Products Week 2 Project"
+author: "AK"
+date: "May 02, 2018"
+output:
+  html_document:
+    keep_md: yes
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Creation of a web page using R Markdown that features a map created with Leaflet.  
+
+## Assignment
+
+The basic goal of this assignment is to create a web page using R Markdown that features a map created with Leaflet and the map must contain the date that you created the document, and it is 2 months before the date that this assignment is graded
+
+
+```{r dataloading, echo=TRUE}
+
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(leaflet))
+suppressPackageStartupMessages(library(shiny))
+suppressPackageStartupMessages(library(miniUI))
+suppressPackageStartupMessages(library(plotly))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(htmltools))
+suppressPackageStartupMessages(library(htmlwidgets))
+suppressPackageStartupMessages(library(lubridate))
+library(dplyr)
+library(leaflet)
+library(shiny)
+library(miniUI)
+library(plotly)
+library(tidyr) 
+library(htmlwidgets)
+library(htmltools)
+library(htmlwidgets)
+library(htmltools)
+library(lubridate)
+
+
+```
+
+
+```{r mapcreation, echo=TRUE}
+
+Ontario<-c("<a href='https://www.toronto.ca/services-payments/venues-facilities-bookings/booking-city-facilities/civic-centres/city-hall/'>Toronto City Hall</a>","<a href='http://www.ontla.on.ca/web/home.do'>Ontario Legislative Assembly</a>")
+
+Ontariolocation<-data.frame(lat=c(lat=43.653908,43.6644),lng=c(-79.384293,-79.3923))
+
+Ontariolocationlat<-c(lat=43.653908,43.6644)
+Ontariolocationlng<-c(lng=-79.384293,-79.3923)
+
+today_date<-Sys.Date()
+two_months_ago <- Sys.Date() %m-% months(2)
+tag1<-tags$h1("Today Date is: ",today_date,"Creation Date",two_months_ago)
+
+my_map<-Ontariolocation %>% 
+leaflet() %>%
+addTiles() %>%
+addMarkers(popup=Ontario) %>% 
+addControl(tag1, position = "bottomleft")
+my_map
+
+saveWidget(my_map, file="Developing_Data_Products_Week_2_Project.html")
+```
